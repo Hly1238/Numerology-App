@@ -1,5 +1,10 @@
-import 'package:best_me_project/authentication/presentation/pages/login.dart';
+import 'package:best_me_project/src/authentication/data/datasource/auth_data.dart';
+import 'package:best_me_project/src/authentication/data/repositories/auth_respository_imp.dart';
+import 'package:best_me_project/src/authentication/domain/usecases/user_sign_in.dart';
+import 'package:best_me_project/src/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:best_me_project/src/authentication/presentation/pages/login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,25 +20,22 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Login(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => AuthBloc(
+              userSignIn: UserSignIn(
+                AuthRespositoryImp(
+                    AuthDataImpl()), // Replace with your actual repository
+              ),
+            ),
+          ),
+        ],
+        child: const Login(),
+      ),
     );
   }
 }
