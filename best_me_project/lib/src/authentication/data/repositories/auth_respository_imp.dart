@@ -1,3 +1,4 @@
+import 'package:best_me_project/core/errors/exception.dart';
 import 'package:best_me_project/src/authentication/data/datasource/auth_data.dart';
 import 'package:best_me_project/src/authentication/domain/repository/auth_respository.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +20,10 @@ class AuthRespositoryImp implements AuthRespository {
         username: username,
         password: password,
       ); //bắt kết quả
-      return left(res);
-    } catch (e) {
-      return left(e.toString());
+      return right(res);
+    } on ServerException catch (e) {
+      print(e.message);
+      return left(e.message);
     }
   }
 }

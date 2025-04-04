@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:best_me_project/core/errors/exception.dart';
 import 'package:best_me_project/core/services/url_api.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,15 +32,14 @@ class AuthDataImpl implements AuthData {
         headers: _requestHeaders,
         body: jsonEncode(body),
       );
-      final Map<String, dynamic> data = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        return data['access_token'] ?? '';
-      } else {
-        return data['message'] ?? 'Error';
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      if (response.statusCode != 200) {
+        throw ServerException(data['message'] ?? 'Lỗi không xác định');
       }
+      return data['access_token'] ?? '';
     } catch (e) {
-      throw Exception('Lỗi đăng nhập: $e');
+      throw Exception(e ?? 'Lỗi không xác định');
     }
   }
 }
