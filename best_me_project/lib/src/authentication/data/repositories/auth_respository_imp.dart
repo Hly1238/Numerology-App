@@ -22,7 +22,6 @@ class AuthRespositoryImp implements AuthRespository {
       ); //bắt kết quả
       return right(res);
     } on ServerException catch (e) {
-      print(e.message);
       return left(e.message);
     }
   }

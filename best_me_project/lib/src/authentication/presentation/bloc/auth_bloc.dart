@@ -1,4 +1,3 @@
-import 'package:best_me_project/core/interfaces/usecase.dart';
 import 'package:best_me_project/src/authentication/domain/usecases/user_sign_in.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -14,6 +13,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         super(AuthInitial()) {
     on<AuthSignInEvent>(
       (event, emit) async {
+        /// Thay vì dùng
+        /// _userSignIn.call() thì sẽ dùng như sau, vì call là một function đặc biệt
+
         final result = await _userSignIn(
           UserSignInParams(
             username: event.username,

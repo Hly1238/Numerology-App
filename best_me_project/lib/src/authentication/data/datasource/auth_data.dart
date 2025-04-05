@@ -39,7 +39,7 @@ class AuthDataImpl implements AuthData {
       }
       return data['access_token'] ?? '';
     } catch (e) {
-      throw Exception(e ?? 'Lỗi không xác định');
+      throw Exception(e.toString());
     }
   }
 }
